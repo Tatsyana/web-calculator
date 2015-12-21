@@ -9,11 +9,10 @@ $(function input_number(){
       lastValue = lastValue.substring(0, lastValue.length - 1);
     }
 
-    if (lastValue == '0') {
-      lastValue = '';
+    if (lastValue != '0') {
+      calcInput.val(lastValue + $(this).val());
     }
     
-    calcInput.val(lastValue + $(this).val());
   });
   
   $('.number').click(function(){
