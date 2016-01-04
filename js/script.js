@@ -48,24 +48,45 @@ $(function input_number(){
   
     var mas = lastValue.split(' ');
     for (var i = 0; i < mas.length; i++) {
-      if ($.inArray(mas[i], operators) != -1) {
-        switch (mas[i]) {
-          case '+':
-            mas[i+1] = parseInt(mas[i-1]) + parseInt(mas[i+1]);
-            break;
-          case '-':
-            mas[i+1] = parseInt(mas[i-1]) - parseInt(mas[i+1]);
-            break;
-          case '/':
-            mas[i+1] = parseInt(mas[i-1]) / parseInt(mas[i+1]);
-            break;
-          case '*':
-            mas[i+1] = parseInt(mas[i-1]) * parseInt(mas[i+1]);
-            break;  
-        }
+      if ($.inArray(mas[i], ['*', '/']) != -1) {
+          calcVal(mas, i);
+          mas.splice(i-1, 2);                                     // Удаляет один из операндов (первый), не оставляя "дыр" в массиве. Результат прохода по данному циклу: массив, состоящий из + и - операторов.
       } 
     }
+  
+    for (var i = 0; i < mas.length; i++) {
+      if ($.inArray(mas[i], operators) != -1) {
+        calcVal(mas, i);          
+      } 
+    }
+    
     calcInput.val(mas[mas.length - 1]);
   });
+  
+
+  /**
+   * Выполняет операцию между соседними элементами массива в зависимости от оператора и записывает значение во второй.
+   *
+   * @mas array 
+   *   Массив со значениями.
+   * @i integer
+   *   Индекс текущего элемента массива.
+   */
+  function calcVal(mas, i) {  
+    switch (mas[i]) {
+      case '+':
+        mas[i+1] = parseInt(mas[i-1]) + parseInt(mas[i+1]);
+        break;
+      case '-':
+        mas[i+1] = parseInt(mas[i-1]) - parseInt(mas[i+1]);
+        break;
+      case '/':
+        mas[i+1] = parseInt(mas[i-1]) / parseInt(mas[i+1]);
+        break;
+      case '*':
+        mas[i+1] = parseInt(mas[i-1]) * parseInt(mas[i+1]);
+        break;  
+    }  
+  };
   
 });
